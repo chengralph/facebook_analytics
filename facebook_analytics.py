@@ -81,7 +81,7 @@ fig = go.Figure()
 fig.add_trace(go.Scatter(x=graph1_x_axis, y = graph1_y_axis, line=dict(color='firebrick', width=4)))
 
 fig.update_layout(title="Messages Sent Per Day", xaxis_title="Date", yaxis_title="Number of Messages") # xaxis=dict(title="Hello", type='category')
-fig.update_layout({'plot_bgcolor': 'rgba(0,0,0,0)', 'paper_bgcolor': 'rgba(0,0,0,0)'})
+fig.update_layout({'plot_bgcolor': 'rgba(1,1,1,1)’, 'paper_bgcolor': 'rgba(0,0,0,0)'})
 fig.show()
 
 if not os.path.exists("images"):
