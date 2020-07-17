@@ -71,10 +71,10 @@ Average Call Duration Per Day Called(hours): {(sum_of_call_duration/number_of_ca
 """
 print(stat_table)
 
-test_shape = date_group_by.apply(lambda x: len(x[(x["Type"]=="Generic") | (x["Type"]=="Share")]))
+series_message = date_group_by.apply(lambda x: len(x[(x["Type"]=="Generic") | (x["Type"]=="Share")]))
 
-graph1_x_axis = test_shape.keys()
-graph1_y_axis = test_shape.values
+graph1_x_axis = series_message.keys()
+graph1_y_axis = series_message.values
 
 
 fig = go.Figure()
@@ -84,12 +84,34 @@ fig.update_layout(title="Messages Sent Per Day", xaxis_title="Date", yaxis_title
 fig.update_layout({'plot_bgcolor': 'rgba(0,0,0,0)', 'paper_bgcolor': 'rgba(0,0,0,0)'})
 fig.show()
 
-if not os.path.exists("images"):
-    os.mkdir("images")
-fig.write_image("images/fig1.png")
+
+series_call = date_group_by["Call Duration"].sum()/3600
+graph2_x_axis = series_call.keys()
+graph2_y_axis = series_call.values
+
+fig2 = go.Figure()
+fig2.add_trace(go.Scatter(x=graph2_x_axis, y = graph2_y_axis, line=dict(color='royalblue', width=4)))
+
+fig2.update_layout(title="Video Call Duration Per Day", xaxis_title="Date", yaxis_title="Duration of Calls(hours)") # xaxis=dict(title="Hello", type='category')
+fig2.update_layout({'plot_bgcolor': 'rgba(0,0,0,0)', 'paper_bgcolor': 'rgba(0,0,0,0)'})
+fig2.show()
 
 
 
+
+sender_groupby = df.groupby("Sender Name")
+sender_name_list = list(sender_groupby.groups.keys())
+sender_name_1 = sender_name_list[0]
+sender_name_2 = sender_name_list[1]
+
+sender1_value = len(df[(df["Sender Name"]==sender_name_1)])
+sender2_value = len(df[(df["Sender Name"]==sender_name_2)])
+
+pie_chart1_labels = ["Ralph","Nicole"]
+pie_chart1_values = [sender1_value, sender2_value]
+
+pie_chart1 = go.Figure(data=[go.Pie(labels=pie_chart1_labels, values=pie_chart1_values)])
+pie_chart1.show()
 
 """
 Generic: Photo/Video/Text
@@ -110,7 +132,7 @@ Stats:
 plotly:
 
     Graph 1: Total Message Line graph Sept-July (Nicole, Ralph) Generic + Share
-    Graph 2: Duration is Video Call Line graph sept-july (Nicole, Ralph) Sum of video call per day (maybe?)
+    Graph 2: Duration is Video Call Line graph sept-july (Nicole, Ralph) Sum of video call per day
     Graph 3: Average messages Sent over 24hours
     Pie Chart 1: Messages  (Nicole, Ralph) Generic + Share
     Pie Chart 2: Types of messages (Ralph)   Photo true, Video true, Generic + false + false, type = attachemnt=share
