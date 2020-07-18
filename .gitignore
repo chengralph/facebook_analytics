@@ -1,5 +1,4 @@
 # ignore all csv and json files
 __pycache__
-
 *.csv
 messages/ralph

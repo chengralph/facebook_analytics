@@ -62,6 +62,7 @@ class facebook:
         self.series_message = self.date_group_by.apply(lambda x: len(x[(x["Type"]=="Generic") | (x["Type"]=="Share")]))
         self.series_call = self.date_group_by["Call Duration"].sum()/3600
         self.sender_groupby = df.groupby("Sender Name")
+    #    self.series_sender = self.sender_groupby.apply(lambda x: len(x[(x["Type"]=="Generic")]))
         self.sender_name_list = list(self.sender_groupby.groups.keys())
         self.time_groupby = df.groupby(lambda x: get_time(df["Date"].iloc[x]))
         self.series_time = self.time_groupby.apply(len)
@@ -106,9 +107,9 @@ class facebook:
         graph_y_axis = self.series_time.values
 
         fig = go.Figure()
-        fig.add_trace(go.Scatter(x=graph_x_axis, y = graph_y_axis, line=dict(color='royalblue', width=4)))
+        fig.add_trace(go.Scatter(x=graph_x_axis, y = graph_y_axis, line=dict(color='black', width=4)))
 
-        fig.update_layout(title="Video Call Duration Per Day", xaxis_title="Time", yaxis_title="Average Number of Messages")
+        fig.update_layout(title="Average Messages Per 24hours", xaxis_title="Time", yaxis_title="Average Number of Messages")
         fig.update_layout({'plot_bgcolor': 'rgba(0,0,0,0)', 'paper_bgcolor': 'rgba(0,0,0,0)'})
         fig.show()
 
@@ -123,7 +124,10 @@ class facebook:
             sender_value = len(df[(df["Sender Name"]==sender_name)])
             pie_chart_labels.append(sender_name)
             pie_chart_values.append(sender_value)
-        pie_chart = go.Figure(data=[go.Pie(labels=pie_chart_labels, values=pie_chart_values)])
+        colors = ["lightsalmon", "lightskyblue"]
+        pie_chart = go.Figure(data=[go.Pie(labels=pie_chart_labels, values=pie_chart_values, hole = .3)])
+        pie_chart.update_traces(hoverinfo='label+percent', textfont_size=20,
+                  marker=dict(colors=colors))
         pie_chart.show()
 
     def plot_senders_pie_chart(self):
@@ -137,9 +141,17 @@ class facebook:
             sender_name_plain_text = self.sender_groupby.apply(lambda x: len(x[(x["Type"]=="Generic") & (x["Photos"]==0) & (x["Videos"]==0)]))[i]
             sender_name_attachment = self.sender_groupby.apply(lambda x: len(x[x["Type"]=="Share"]))[i]
             pie_chart_values = [sender_name_photos, sender_name_videos, sender_name_plain_text, sender_name_attachment]
-            pie_chart = go.Figure(data=[go.Pie(labels=pie_chart_labels, values=pie_chart_values)])
+            colors = ["antiquewhite", "dimgrey", "dodgerblue","lightcyan"]
+            pie_chart = go.Figure(data=[go.Pie(labels=pie_chart_labels, values=pie_chart_values, hole = .3)])
+            pie_chart.update_traces(hoverinfo='label+percent', textfont_size=20,
+                      marker=dict(colors=colors))
             pie_chart.update_layout(title_text = sender_name)
             pie_chart.show()
+
+    def plot_count_love_chart(self):
+        #pattern = (i?\s*love\s*you)|lubby|ily
+        #print(self.sender_groupby["Content"].str.extract(r'(i?\s*love\s*you)|lubby|ily'))
+        print(self.sender_groupby["Content"].describe())
 
 def convert_date(date_time_str):
     date_time_object = datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S')
