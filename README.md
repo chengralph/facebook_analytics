@@ -51,18 +51,19 @@ python -m pip install
 ```
 3. From the Facebook.zip file, locate the sender_name and drag that folder into project folder
 4. Directory should look like this:
+
 Project Folder:
-> messages
-  > John
-    > message1.json
-    > message2.json
-    > message3.json
-> .gitignore
-> README.md
-> facebook.py
-> message-graph_data_example.png
-> pie_chart_data_example.png
-> requirements.txt
-> run_analytics.py
+* messages
+  * John
+    * message1.json
+    * message2.json
+    * message3.json
+* .gitignore
+* README.md
+* facebook.py
+* message-graph_data_example.png
+* pie_chart_data_example.png
+* requirements.txt
+* run_analytics.py
 
 5. From root directory run ```python3 run_analyitics.py``` or from Windows ```python run_analytics.py```
