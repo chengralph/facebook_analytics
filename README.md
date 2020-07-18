@@ -1,6 +1,6 @@
 # Facebook Analytics 1.0 Alpha
 
-Tired of Facebook stealing your data and selling to China? Well now you can steal theirs(technically your own) and analyze them(for no profit btw). Want to see who is the better texter in a relationship? Or do you want to see who's the most annoying one? Find out now :).
+Tired of Facebook stealing your data and selling it to China? Well now you can steal theirs(technically your own) and analyze them(for no profit btw). Want to see who is the better texter in a relationship? Or do you want to see who's the most annoying one? Find out now :).
 
 
 ## Table of contents
