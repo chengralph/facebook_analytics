@@ -2,6 +2,7 @@
 
 Tired of Facebook stealing your data and selling it to China? Well now you can steal theirs(technically your own) and analyze them(for no profit btw). Want to see who is the better texter in a relationship? Or do you want to see who's the most annoying one? Find out now :).
 
+Created by Ralph Cheng and Nicole Wan
 
 ## Table of contents
 * [PLEASE READ](#please-read)
