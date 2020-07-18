@@ -124,10 +124,11 @@ class facebook:
             sender_value = len(df[(df["Sender Name"]==sender_name)])
             pie_chart_labels.append(sender_name)
             pie_chart_values.append(sender_value)
-        colors = ["lightsalmon", "lightskyblue"]
-        pie_chart = go.Figure(data=[go.Pie(labels=pie_chart_labels, values=pie_chart_values, hole = .3)])
-        pie_chart.update_traces(hoverinfo='label+percent', textfont_size=20,
+        colors = ["#fad9d3", "lightskyblue"]
+        pie_chart = go.Figure(data=[go.Pie(labels=pie_chart_labels, values=pie_chart_values)])
+        pie_chart.update_traces(hoverinfo='label+percent', textfont_size=20, textinfo='none',
                   marker=dict(colors=colors))
+        pie_chart.update_layout({'plot_bgcolor': 'rgba(0,0,0,0)', 'paper_bgcolor': 'rgba(0,0,0,0)'})
         pie_chart.show()
 
     def plot_senders_pie_chart(self):
@@ -141,10 +142,10 @@ class facebook:
             sender_name_plain_text = self.sender_groupby.apply(lambda x: len(x[(x["Type"]=="Generic") & (x["Photos"]==0) & (x["Videos"]==0)]))[i]
             sender_name_attachment = self.sender_groupby.apply(lambda x: len(x[x["Type"]=="Share"]))[i]
             pie_chart_values = [sender_name_photos, sender_name_videos, sender_name_plain_text, sender_name_attachment]
-            colors = ["antiquewhite", "dimgrey", "dodgerblue","lightcyan"]
-            pie_chart = go.Figure(data=[go.Pie(labels=pie_chart_labels, values=pie_chart_values, hole = .3)])
-            pie_chart.update_traces(hoverinfo='label+percent', textfont_size=20,
-                      marker=dict(colors=colors))
+            colors = ["#3a63df", "#7357fd", "#fad9d3", "lightskyblue"]
+            pie_chart = go.Figure(data=[go.Pie(labels=pie_chart_labels, values=pie_chart_values)])
+            pie_chart.update_traces(hoverinfo='label+percent', textfont_size=20, textinfo='none', marker=dict(colors=colors))
+            pie_chart.update_layout({'plot_bgcolor': 'rgba(0,0,0,0)', 'paper_bgcolor': 'rgba(0,0,0,0)'})
             pie_chart.update_layout(title_text = sender_name)
             pie_chart.show()
 
