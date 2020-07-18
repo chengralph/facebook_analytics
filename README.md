@@ -18,6 +18,7 @@ Please download your json file off facebook, it may take up to 12-24hours for Fa
 4. Select "Deselect All"
 5. Select "Messages"
 7. Select "Create File"
+8. After 12-24hours, please download the zip file.
 
 ## General info
 This project uses a data in the form of a .json file from Facebook and utilizes run_analytics.py script to export nesscary data as well as create charts. 
@@ -36,8 +37,24 @@ Average Call Duration Per Day Called(hours):
 ## Setup
 To run this project, download it as zip:
 1. Extract all files into a folder
-2. Run command in terminal to install requirements:
+2. Navigate to root directory and run command in terminal to install requirements:
 ```
 pip install requirements.txt
 ```
-3. 
+3. From the Facebook.zip file, locate the sender_name and drag that folder into project folder
+4. Directory should look like this:
+Project Folder:
+> messages
+  > John
+    > message1.json
+    > message2.json
+    > message3.json
+> .gitignore
+> README.md
+> facebook.py
+> message-graph_data_example.png
+> pie_chart_data_example.png
+> requirements.txt
+> run_analytics.py
+
+5. From root directory run ```python3 run_analyitics.py``` or from Windows ```python run_analytics.py```
