@@ -9,31 +9,32 @@ import plotly.graph_objects as go
 
 class facebook:
     def write_to_csv(self, output_path="output.csv"):
-        if type(output_path) != str:
+        if not isinstance(output_path, str):
             raise TypeError("Hey name me a string bro")
-        directory = os.path.join(os.getcwd(), "messages")
-        folders = os.listdir(directory)
-        with open(output_path, "a") as csv_file:
-            headers = ["Date", "Sender Name", "Type", "Content", "Photos", "Videos", "Call Duration"]
-            writer = csv.writer(csv_file, delimiter=',')
-            writer.writerow(headers)
-            for folder in folders:
-                absolute_directory = os.path.join(directory, folder)
-                for filename in os.listdir(absolute_directory):
-                    if filename.endswith(".json"):
-                        absolute_file_path = os.path.join(absolute_directory, filename)
-                        data = json.load(open(absolute_file_path, "r+"))
-                        for message in data["messages"]:
+        if not os.path.isfile(output_path):
+            directory = os.path.join(os.getcwd(), "messages")
+            folders = os.listdir(directory)
+            with open(output_path, "a") as csv_file:
+                headers = ["Date", "Sender Name", "Type", "Content", "Photos", "Videos", "Call Duration"]
+                writer = csv.writer(csv_file, delimiter=',')
+                writer.writerow(headers)
+                for folder in folders:
+                    absolute_directory = os.path.join(directory, folder)
+                    for filename in os.listdir(absolute_directory):
+                        if filename.endswith(".json"):
+                            absolute_file_path = os.path.join(absolute_directory, filename)
+                            data = json.load(open(absolute_file_path, "r+"))
+                            for message in data["messages"]:
 
-                            date = datetime.fromtimestamp(message.get("timestamp_ms", 0) / 1000).strftime("%Y-%m-%d %H:%M:%S")
-                            sender = message.get("sender_name")
-                            type = message.get("type")
-                            photos = str("photos" in message)
-                            videos = str("videos" in message)
-                            content = message.get("content", "")
-                            call_duration = int(message.get("call_duration", 0))
-                            normalized_content = unicodedata.normalize('NFKD', content).encode('ascii','ignore')
-                            writer.writerow([date,sender,type, normalized_content, photos, videos, call_duration])
+                                date = datetime.fromtimestamp(message.get("timestamp_ms", 0) / 1000).strftime("%Y-%m-%d %H:%M:%S")
+                                sender = message.get("sender_name")
+                                type = message.get("type")
+                                photos = str("photos" in message)
+                                videos = str("videos" in message)
+                                content = message.get("content", "")
+                                call_duration = int(message.get("call_duration", 0))
+                                normalized_content = unicodedata.normalize('NFKD', content).encode('ascii','ignore')
+                                writer.writerow([date,sender,type, normalized_content, photos, videos, call_duration])
 
     def set_df(self, input_path="output.csv"):
         if type(input_path) != str:
@@ -73,7 +74,7 @@ class facebook:
         Number of Texts Sent: {self.number_of_texts}
         Number of Photos Sent: {self.number_of_photos}
         Number of Days Video Called: {self.number_of_calls}
-        Hours Spent Talked: {self.sum_of_call_duration}
+        Total Hours Video Called: {self.sum_of_call_duration}
         Average Call Duration Per Day Called(hours): {self.average_call_duration:.2f}
         """
         return data_table
