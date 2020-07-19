@@ -41,7 +41,7 @@ This project requires python3.3+ in order for pandas and plotly to work. Downloa
 https://www.python.org/downloads/
 
 To run this project, download the project as a zipfile:
-1. Extract all files into a folder
+1. Extract the folder "facebook_analytics-master"
 2. Extract the facebook-[name].zip and navigate to messages>inbox.
 
    File should like something like this: john_doe_gmn9-ur9sa
