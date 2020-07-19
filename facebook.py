@@ -6,6 +6,7 @@ import csv
 import unicodedata
 import pandas as pd
 import plotly.graph_objects as go
+import warnings
 
 class facebook:
     def write_to_csv(self, output_path="output.csv"):
@@ -42,6 +43,8 @@ class facebook:
         self.df = pd.read_csv(input_path)
 
     def set_data(self):
+        warnings.filterwarnings("ignore", 'This pattern has match groups')
+
         df = self.df
 
         date_index_0 =  df["Date"].iloc[0]
@@ -49,20 +52,24 @@ class facebook:
         self.number_of_days_spanned = convert_date(date_index_0) - convert_date(date_index_1)
 
         self.date_group_by = df.groupby(lambda x: strip_date(df["Date"].iloc[x]))
+        self.ily_pattern = "(i?\s*love\s*you)|lubby|ily"
 
         self.number_of_days_interacted = len(self.date_group_by)
         self.number_of_messages = len(df[(df["Type"]=="Generic") | (df["Type"]=="Share")])
         self.number_of_texts = len(df[(df["Type"]=="Generic") & (df["Photos"]==0) & (df["Videos"]==0)])
         self.number_of_photos = len(df[(df["Photos"]>0)])
+        self.number_of_videos = len(df[(df["Videos"]>0)])
+        self.number_of_attachments = len(df[(df["Type"]=="Share")])
         self.series_number_of_calls = self.date_group_by.apply(lambda x: len(x[x["Type"]=="Call"]))
         self.number_of_calls = len(self.series_number_of_calls.to_numpy().nonzero()[0])
         self.sum_of_call_duration = int(df["Call Duration"].sum() / 3600)
         self.average_call_duration = self.sum_of_call_duration/self.number_of_calls
+        self.number_of_ily = self.df["Content"].str.contains(self.ily_pattern).sum()
 
         self.series_message = self.date_group_by.apply(lambda x: len(x[(x["Type"]=="Generic") | (x["Type"]=="Share")]))
         self.series_call = self.date_group_by["Call Duration"].sum()/3600
         self.sender_groupby = df.groupby("Sender Name")
-    #    self.series_sender = self.sender_groupby.apply(lambda x: len(x[(x["Type"]=="Generic")]))
+        self.series_sender = self.sender_groupby.apply(lambda x: x["Content"].str.contains(self.ily_pattern).sum())
         self.sender_name_list = list(self.sender_groupby.groups.keys())
         self.time_groupby = df.groupby(lambda x: get_time(df["Date"].iloc[x]))
         self.series_time = self.time_groupby.apply(len)
@@ -74,9 +81,12 @@ class facebook:
         Numbers of Messages Sent: {self.number_of_messages}
         Number of Texts Sent: {self.number_of_texts}
         Number of Photos Sent: {self.number_of_photos}
+        Number of Videos Sent: {self.number_of_videos}
+        Number of Attachemnts Sent: {self.number_of_attachments}
         Number of Days Video Called: {self.number_of_calls}
         Total Hours Video Called: {self.sum_of_call_duration}
         Average Call Duration Per Day Called(hours): {self.average_call_duration:.2f}
+        Number of "I Love You's": {self.number_of_ily}
         """
         return data_table
 
@@ -129,6 +139,7 @@ class facebook:
         pie_chart.update_traces(hoverinfo='label+percent', textfont_size=20, textinfo='none',
                   marker=dict(colors=colors))
         pie_chart.update_layout({'plot_bgcolor': 'rgba(0,0,0,0)', 'paper_bgcolor': 'rgba(0,0,0,0)'})
+        pie_chart.update_layout(title_text = "Messages sent per sender")
         pie_chart.show()
 
     def plot_senders_pie_chart(self):
@@ -149,10 +160,32 @@ class facebook:
             pie_chart.update_layout(title_text = sender_name)
             pie_chart.show()
 
+    def plot_distribution_pie_chart(self):
+        pie_chart_labels = ["Photos", "Plain Text", "Attachemnts", "Videos"]
+        pie_chart_values = [self.number_of_photos, self.number_of_texts, self.number_of_attachments, self.number_of_videos]
+        colors = ["#3a63df", "#7357fd", "#fad9d3", "lightskyblue"]
+        pie_chart = go.Figure(data=[go.Pie(labels=pie_chart_labels, values=pie_chart_values)])
+        pie_chart.update_traces(hoverinfo='label+percent', textfont_size=20, textinfo='none', marker=dict(colors=colors))
+        pie_chart.update_layout({'plot_bgcolor': 'rgba(0,0,0,0)', 'paper_bgcolor': 'rgba(0,0,0,0)'})
+        pie_chart.update_layout(title_text = "Distrubution Chart")
+        pie_chart.show()
+
     def plot_count_love_chart(self):
-        #pattern = (i?\s*love\s*you)|lubby|ily
-        #print(self.sender_groupby["Content"].str.extract(r'(i?\s*love\s*you)|lubby|ily'))
-        print(self.sender_groupby["Content"].describe())
+        df = self.df
+
+        pie_chart_labels = []
+        pie_chart_values = self.series_sender.values
+
+        for i,_ in enumerate(self.sender_name_list):
+            sender_name = self.sender_name_list[i]
+            pie_chart_labels.append(sender_name)
+        colors = ["#fad9d3", "lightskyblue"]
+        pie_chart = go.Figure(data=[go.Pie(labels=pie_chart_labels, values=pie_chart_values)])
+        pie_chart.update_traces(hoverinfo='label+percent', textfont_size=20, textinfo='none',
+                  marker=dict(colors=colors))
+        pie_chart.update_layout({'plot_bgcolor': 'rgba(0,0,0,0)', 'paper_bgcolor': 'rgba(0,0,0,0)'})
+        pie_chart.update_layout(title_text = "Who said 'I love you' more?")
+        pie_chart.show()
 
 def convert_date(date_time_str):
     date_time_object = datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S')
