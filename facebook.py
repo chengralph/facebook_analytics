@@ -163,7 +163,7 @@ class facebook:
     def plot_distribution_pie_chart(self):
         pie_chart_labels = ["Photos", "Plain Text", "Attachemnts", "Videos"]
         pie_chart_values = [self.number_of_photos, self.number_of_texts, self.number_of_attachments, self.number_of_videos]
-        colors = ["#3a63df", "#7357fd", "#fad9d3", "lightskyblue"]
+        colors = ["lightskyblue", "#fad9d3", "#ffd480", "#b3b3ff"]
         pie_chart = go.Figure(data=[go.Pie(labels=pie_chart_labels, values=pie_chart_values)])
         pie_chart.update_traces(hoverinfo='label+percent', textfont_size=20, textinfo='none', marker=dict(colors=colors))
         pie_chart.update_layout({'plot_bgcolor': 'rgba(0,0,0,0)', 'paper_bgcolor': 'rgba(0,0,0,0)'})
@@ -179,7 +179,7 @@ class facebook:
         for i,_ in enumerate(self.sender_name_list):
             sender_name = self.sender_name_list[i]
             pie_chart_labels.append(sender_name)
-        colors = ["#fad9d3", "lightskyblue"]
+        colors = ["#f1a29b", "#fad9d3"]
         pie_chart = go.Figure(data=[go.Pie(labels=pie_chart_labels, values=pie_chart_values)])
         pie_chart.update_traces(hoverinfo='label+percent', textfont_size=20, textinfo='none',
                   marker=dict(colors=colors))
