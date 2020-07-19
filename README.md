@@ -42,29 +42,32 @@ https://www.python.org/downloads/
 
 To run this project, download the project as a zipfile:
 1. Extract all files into a folder
-2. Navigate to root directory of folder and run command in terminal to install requirements:
+2. Extract the facebook-[name].zip and navigate to messages>inbox (in here should be all the sender names/group chats e.g. "john_doe_gmn9-ur9sa")
+3. Copy the folder of the sender's name or a group chat into facebook_analytics/messages
+4. Directory should look like this:
+
+* facebook_analytics-master
+  * messages
+    * john_doe_gmn9-ur9sa
+      * message1.json
+      * message2.json
+      * message3.json
+  * .gitignore
+  * README.md
+  * facebook.py
+  * message-graph_data_example.png
+  * pie_chart_data_example.png
+  * requirements.txt
+  * run_analytics.py
+
+5. Open the terminal then navigate to root directory of folder (to navigate to root direcotery, use ```cd [DIRECTORY_NAME]```
+6. Run command in terminal to install requirements from root directory:
 ```
 pip install -r requirements.txt
 ```
-If pip command is not found then install pip using, then run the command above again:
+**If pip command is not found then install pip using, then run the command above again from root directory:**
 ```
 python -m pip install
 ```
-3. From the Facebook.zip file, locate the sender_name and drag that folder into project folder
-4. Directory should look like this:
 
-Project Folder:
-* messages
-  * John
-    * message1.json
-    * message2.json
-    * message3.json
-* .gitignore
-* README.md
-* facebook.py
-* message-graph_data_example.png
-* pie_chart_data_example.png
-* requirements.txt
-* run_analytics.py
-
-5. From root directory run ```python3 run_analyitics.py``` or from Windows ```python run_analytics.py```
+7. From root directory run ```python3 run_analyitics.py``` or from Windows ```python run_analytics.py```
