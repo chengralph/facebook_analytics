@@ -42,7 +42,9 @@ https://www.python.org/downloads/
 
 To run this project, download the project as a zipfile:
 1. Extract all files into a folder
-2. Extract the facebook-[name].zip and navigate to messages>inbox (in here should be all the sender names/group chats e.g. "john_doe_gmn9-ur9sa")
+2. Extract the facebook-[name].zip and navigate to messages>inbox.
+
+   File should like something like this: john_doe_gmn9-ur9sa
 3. Copy the folder of the sender's name or a group chat into facebook_analytics/messages
 4. Directory should look like this:
 
