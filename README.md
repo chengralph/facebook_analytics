@@ -33,8 +33,8 @@ Number of Days Video Called:
 Total Hours Video Called: 
 Average Call Duration Per Day Called(hours):
 ```
-![picture](message_graph_data_example.png)
-![picture](pie_chart_data_example.png)
+![picture](example_images/message_graph_data_example.png)
+![picture](example_images/pie_chart_data_example.png)
 
 ## Setup
 This project requires python3.3+ in order for pandas and plotly to work. Download the latest version of python for Mac/Windows/Linux

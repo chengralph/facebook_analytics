@@ -1,10 +1,7 @@
 from facebook import facebook
 
-fb_analysis = facebook()
+fb_analysis = facebook.FaceBook()
 
-fb_analysis.write_to_csv()
-fb_analysis.set_df()
-fb_analysis.set_data()
 
 print(fb_analysis.get_data_table())
 fb_analysis.plot_message_graph()
